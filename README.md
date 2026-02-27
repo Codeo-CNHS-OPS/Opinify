@@ -10,8 +10,7 @@ The goal of this mini research project is to understand students' littering habi
 
 ## How to Use / Access the Survey
 - Open `index.html` in a web browser **OR**
-- Visit the live site: [https://codeo-cnhs-ops.github.io/Opinify/](https://codeo-cnhs-ops.github.io/Opinify/)
-
+- Visit the live site: [(https://codeo-cnhs-ops.github.io/Trash-Talk/)](https://codeo-cnhs-ops.github.io/Trash-Talk/)
 ## Method / Data Collection
 - The survey targeted grade 8 students.
 - Participation was voluntary and responses were anonymous.
