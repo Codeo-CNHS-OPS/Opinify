@@ -5,7 +5,7 @@ const thankYou = document.getElementById('thankYou');
 
 let answers = {};
 let answeredQuestions = new Set();
-const OFFLINE_KEY = "opinify_offline_responses";
+const OFFLINE_KEY = "trash-talk_offline_responses";
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQkx8vyEs7mO-orrxUSd5VJuLx3cqfoLzOJQ88kvdqpL8Lo2eZ5TuYrU23C49oLlgb-w/exec";
 
 // Track question selections
