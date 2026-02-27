@@ -41,24 +41,53 @@ function animateProgressGlow() {
 
 surveyForm.addEventListener('submit', e => {
   e.preventDefault();
+
   const name = document.getElementById('name').value.trim();
-  const section = document.getElementById('section').value.trim();
-if (!name || !section) {
+  const sectionInput = document.getElementById('section').value.trim();
   const warning = document.getElementById('warningMsg');
-  warning.textContent = 'Please fill your name and section.';
-  warning.classList.remove('hidden');
-  warning.classList.add('visible');
 
-  // Optional: hide again after 3 seconds
-  setTimeout(() => {
-    warning.classList.remove('visible');
-    warning.classList.add('hidden');
-  }, 3000);
+  // Reset all section highlights
+  questions.forEach(sectionOptions => {
+    sectionOptions.parentElement.classList.remove('unanswered');
+  });
 
-  return;
-}
+  // Check if name and section are filled
+  if (!name || !sectionInput) {
+    warning.textContent = 'Please fill your name and section.';
+    warning.classList.remove('hidden');
+    warning.classList.add('visible');
 
-  const data = { name, section, ...answers };
+    setTimeout(() => {
+      warning.classList.remove('visible');
+      warning.classList.add('hidden');
+    }, 3000);
+    return;
+  }
+
+  // Check if all questions are answered
+  let allAnswered = true;
+  questions.forEach((sectionOptions, index) => {
+    if (!answeredQuestions.has(index)) {
+      allAnswered = false;
+      // Highlight unanswered question
+      sectionOptions.parentElement.classList.add('unanswered');
+    }
+  });
+
+  if (!allAnswered) {
+    warning.textContent = 'Please answer all questions before submitting.';
+    warning.classList.remove('hidden');
+    warning.classList.add('visible');
+
+    setTimeout(() => {
+      warning.classList.remove('visible');
+      warning.classList.add('hidden');
+    }, 3000);
+    return;
+  }
+
+  // If everything is filled, submit data
+  const data = { name, section: sectionInput, ...answers };
   console.log('Submitted:', data);
 
   surveyForm.classList.add('hidden');
