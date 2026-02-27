@@ -176,3 +176,11 @@ input[type="text"]:focus {
     flex: 1 1 100%;
   }
 }
+
+/* Highlight unanswered question sections */
+.section.unanswered {
+  border: 2px solid #ff5555;
+  border-radius: 15px;
+  padding: 12px;
+  transition: border 0.3s;
+}
