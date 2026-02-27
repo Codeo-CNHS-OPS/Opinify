@@ -93,12 +93,25 @@ surveyForm.addEventListener('submit', e => {
 
   // All validations passed → submit data
   const data = { name, section: sectionInput, ...answers };
-  console.log('Submitted:', data);
 
-  surveyForm.classList.add('hidden');
-  thankYou.classList.remove('hidden');
-
-  confetti();
+  // POST to Google Apps Script
+  fetch("https://script.google.com/macros/s/AKfycbxQkx8vyEs7mO-orrxUSd5VJuLx3cqfoLzOJQ88kvdqpL8Lo2eZ5TuYrU23C49oLlgb-w/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  .then(res => res.json())
+  .then(resp => {
+    console.log("Server response:", resp);
+    surveyForm.classList.add('hidden');
+    thankYou.classList.remove('hidden');
+    confetti();
+  })
+  .catch(err => {
+    warning.textContent = "Submission failed. Please try again.";
+    warning.classList.remove('hidden');
+    warning.classList.add('visible');
+    console.error(err);
+  });
 });
 
 // Dopamine confetti effect
