@@ -125,6 +125,7 @@ surveyForm.addEventListener('submit', async e => {
   thankYou.classList.remove('hidden');
   confetti();
   fetchAnswerCounts();
+  showResultsSummary();
 });
 
 // Example post-submit percentages
@@ -161,7 +162,6 @@ async function showResultsSummary() {
     console.error('Failed to fetch results summary:', err);
   }
 }
-showResultsSummary();
 
 // ================= CONFETTI =================
 function confetti() {
