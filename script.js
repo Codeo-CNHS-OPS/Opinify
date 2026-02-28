@@ -6,7 +6,7 @@ const thankYou = document.getElementById('thankYou');
 let answers = {};
 let answeredQuestions = new Set();
 const OFFLINE_KEY = "trash-talk_offline_responses";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQkx8vyEs7mO-orrxUSd5VJuLx3cqfoLzOJQ88kvdqpL8Lo2eZ5TuYrU23C49oLlgb-w/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxs4oYf87-0HjAFUeeKed5DC-68Hvoj_3IYSe23Tgr8QMnMTZUr1RESE1fIr1bM7T_QGQ/exec"; 
 
 
 // ================= TRACK QUESTION SELECTION =================
