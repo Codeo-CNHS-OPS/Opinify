@@ -47,14 +47,12 @@ function sendToGoogleSheet(data) {
   }).then(res => res.json());
 }
 
-function sendAllStoredResponses() {
+async function sendAllStoredResponses() {
   let stored = JSON.parse(localStorage.getItem(OFFLINE_KEY) || "[]");
   if (!stored.length) return;
-  stored.forEach((data, index) => {
-    sendToGoogleSheet(data).then(() => stored[index] = null).catch(err => console.error(err));
-  });
-  stored = stored.filter(d => d !== null);
-  localStorage.setItem(OFFLINE_KEY, JSON.stringify(stored));
+  const results = await Promise.allSettled(stored.map(data => sendToGoogleSheet(data)));
+  const remaining = stored.filter((_, i) => results[i].status === 'rejected');
+  localStorage.setItem(OFFLINE_KEY, JSON.stringify(remaining));
 }
 
 window.addEventListener('online', sendAllStoredResponses);
@@ -98,6 +96,10 @@ surveyForm.addEventListener('submit', async e => {
     return;
   }
 
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
   const data = { name, section: sectionInput, ...answers };
   if (navigator.onLine) {
     try { await sendToGoogleSheet(data); } catch { saveLocally(data); }
@@ -133,9 +135,16 @@ async function showResultsSummary() {
         <p class="dispatch-msg">${percent}% of people chose the same answer as you.</p>
         <div class="user-answer-label">Your answer: <strong>${userAnswer}</strong></div>
         <div class="result-bar">
-          <div class="result-fill" style="width:${percent}%;background:#ffaa55;">${percent}%</div>
+          <div class="result-fill" id="fill-${qKey}" style="width:0%;">${percent}%</div>
         </div>
       `;
+      // Trigger count-up after paint
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const fill = document.getElementById(`fill-${qKey}`);
+          if (fill) fill.style.width = percent + '%';
+        }, 60);
+      });
     });
 
     document.getElementById('resultsSummary').classList.remove('hidden');
