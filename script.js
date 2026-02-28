@@ -146,7 +146,7 @@ surveyForm.addEventListener('submit', e => {
 });
 
 // Dopamine confetti effect
-function confetti(){
+function confetti() {
   const confettiContainer = document.createElement('div');
   confettiContainer.style.position = 'fixed';
   confettiContainer.style.top = 0;
@@ -154,30 +154,44 @@ function confetti(){
   confettiContainer.style.width = '100%';
   confettiContainer.style.height = '100%';
   confettiContainer.style.pointerEvents = 'none';
+  confettiContainer.style.overflow = 'hidden';
   document.body.appendChild(confettiContainer);
 
-  for(let i=0;i<60;i++){
-    const div = document.createElement('div');
-    div.style.position = 'absolute';
-    div.style.width = '10px';
-    div.style.height = '10px';
-    const colors = ['#5a5aff','#aa55ff','#55ffff','#ffaa55','#ff55aa'];
-    div.style.background = colors[Math.floor(Math.random()*colors.length)];
-    div.style.left = Math.random()*100 + '%';
-    div.style.top = '-10px';
-    div.style.borderRadius = '50%';
-    div.style.opacity = Math.random();
-    div.style.transform = `rotate(${Math.random()*360}deg)`;
-    confettiContainer.appendChild(div);
+  const colors = ['#5a5aff','#aa55ff','#55ffff','#ffaa55','#ff55aa'];
 
-    let fall = setInterval(()=>{
-      let top = parseFloat(div.style.top);
-      if(top > window.innerHeight){
-        div.remove();
-        clearInterval(fall);
-      } else div.style.top = top + Math.random()*8 + 'px';
-    }, 20);
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const piece = document.createElement('div');
+
+      piece.style.position = 'absolute';
+      piece.style.width = '10px';
+      piece.style.height = '10px';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.top = '-20px';
+      piece.style.borderRadius = '50%';
+      piece.style.opacity = 0;
+
+      // Random animation duration
+      const duration = 3 + Math.random() * 2;
+
+      piece.style.animation = `
+        fall ${duration}s linear forwards,
+        fadeIn 0.5s ease forwards
+      `;
+
+      confettiContainer.appendChild(piece);
+
+      // Remove piece after animation
+      setTimeout(() => {
+        piece.remove();
+      }, duration * 1000);
+
+    }, i * 30); // stagger creation
   }
 
-  setTimeout(()=>confettiContainer.remove(), 3500);
+  // Remove container after everything finishes
+  setTimeout(() => {
+    confettiContainer.remove();
+  }, 5000);
 }
