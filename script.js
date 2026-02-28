@@ -197,5 +197,3 @@ function confetti() {
 
 // ================= INIT =================
 fetchAnswerCounts();
-
-      
