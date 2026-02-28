@@ -5,9 +5,8 @@ const thankYou = document.getElementById('thankYou');
 
 let answers = {};
 let answeredQuestions = new Set();
-const OFFLINE_KEY = "trash-talk_offline_responses";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxs4oYf87-0HjAFUeeKed5DC-68Hvoj_3IYSe23Tgr8QMnMTZUr1RESE1fIr1bM7T_QGQ/exec"; 
-
+const OFFLINE_KEY = "Trash-Talk_Survey";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQkx8vyEs7mO-orrxUSd5VJuLx3cqfoLzOJQ88kvdqpL8Lo2eZ5TuYrU23C49oLlgb-w/exec"; 
 
 // ================= TRACK QUESTION SELECTION =================
 questions.forEach((sectionOptions, qIndex) => {
@@ -125,18 +124,16 @@ async function showResultsSummary() {
       const counts = data[qKey];
       const total = Object.values(counts).reduce((a,b)=>a+b,0);
 
-      let html = `<h3>${questionText}</h3>`;
-      Object.entries(counts).forEach(([option, count]) => {
-        const percent = total ? Math.round((count/total)*100) : 0;
-        const highlight = option === userAnswer ? 'style="background:#ffaa55"' : '';
-        html += `
-          <div>${option}</div>
-          <div class="result-bar">
-            <div class="result-fill" style="width:${percent}%;${highlight}">${percent}%</div>
-          </div>
-        `;
-      });
-      summaryEl.innerHTML = html;
+      const userCount = counts[userAnswer] || 0;
+      const percent = total ? Math.round((userCount / total) * 100) : 0;
+      summaryEl.innerHTML = `
+        <h3>${questionText}</h3>
+        <p class="dispatch-msg">${percent}% of people chose the same answer as you.</p>
+        <div class="user-answer-label">Your answer: <strong>${userAnswer}</strong></div>
+        <div class="result-bar">
+          <div class="result-fill" style="width:${percent}%;background:#ffaa55;">${percent}%</div>
+        </div>
+      `;
     });
 
     document.getElementById('resultsSummary').classList.remove('hidden');
