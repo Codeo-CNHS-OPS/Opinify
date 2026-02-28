@@ -184,3 +184,15 @@ input[type="text"]:focus {
   padding: 12px;
   transition: border 0.3s;
 }
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
