@@ -19,6 +19,14 @@ let answeredQuestions = new Set();
 const OFFLINE_KEY = "trash-talk_offline_responses";
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQkx8vyEs7mO-orrxUSd5VJuLx3cqfoLzOJQ88kvdqpL8Lo2eZ5TuYrU23C49oLlgb-w/exec"; 
 
+// ================= FETCH WITH TIMEOUT =================
+function fetchWithTimeout(url, options = {}, ms = 6000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 // ================= TRACK QUESTION SELECTION =================
 questions.forEach((sectionOptions, qIndex) => {
   const btns = sectionOptions.querySelectorAll('.option');
@@ -52,7 +60,7 @@ function saveLocally(data) {
 }
 
 function sendToGoogleSheet(data) {
-  return fetch(SCRIPT_URL, {
+  return fetchWithTimeout(SCRIPT_URL, {
     method: "POST",
     body: JSON.stringify(data),
   }).then(res => res.json());
@@ -121,7 +129,7 @@ surveyForm.addEventListener('submit', async e => {
   confetti();
   showResultsSummary();
   // Fetch updated count and expand sharing station
-  fetch(SCRIPT_URL).then(r => r.json()).then(data => {
+  fetchWithTimeout(SCRIPT_URL).then(r => r.json()).then(data => {
     const total = Object.values(data['Q1']).reduce((a, b) => a + b, 0);
     expandSharingStation(total);
   }).catch(() => expandSharingStation(1));
@@ -130,7 +138,7 @@ surveyForm.addEventListener('submit', async e => {
 // Example post-submit percentages
 async function showResultsSummary() {
   try {
-    const res = await fetch(SCRIPT_URL);
+    const res = await fetchWithTimeout(SCRIPT_URL);
     const data = await res.json();
     const totalResponses = Object.values(data['Q1']).reduce((a,b)=>a+b,0);
 
@@ -207,12 +215,13 @@ const GOAL = 250;
 
 async function updateSharingProgress() {
   try {
-    const res = await fetch(SCRIPT_URL);
+    const res = await fetchWithTimeout(SCRIPT_URL);
     const data = await res.json();
     const total = Object.values(data['Q1']).reduce((a, b) => a + b, 0);
     setSharingCount(total);
   } catch (err) {
-    console.error('Failed to fetch response count:', err);
+    // Silently fail — placeholder stays, no blank screen
+    console.warn('Could not fetch response count:', err);
   }
 }
 
@@ -261,5 +270,6 @@ function copyLink() {
   });
 }
 
-// Load progress on page load
-updateSharingProgress();
+// Load progress on page load — show placeholder immediately, fetch in background after paint
+document.getElementById('responseCount').textContent = '...';
+setTimeout(updateSharingProgress, 100);
