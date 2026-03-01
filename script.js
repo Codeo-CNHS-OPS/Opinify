@@ -241,10 +241,10 @@ function expandSharingStation(totalAfterSubmit) {
 function copyLink() {
   navigator.clipboard.writeText(SITE_URL).then(() => {
     const btn = document.getElementById('copyLinkBtn');
-    btn.textContent = '✅ Copied!';
+    btn.textContent = 'Copied!';
     btn.classList.add('copied');
     setTimeout(() => {
-      btn.textContent = '🔗 Copy Link';
+      btn.textContent = 'Copy Link';
       btn.classList.remove('copied');
     }, 2500);
   });
