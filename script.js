@@ -112,7 +112,7 @@ surveyForm.addEventListener('submit', async e => {
   // Fetch updated count and expand sharing station
   fetch(SCRIPT_URL).then(r => r.json()).then(data => {
     const total = Object.values(data['Q1']).reduce((a, b) => a + b, 0);
-    expandSharingStation(total + 1); // +1 optimistic for user's own submission
+    expandSharingStation(total);
   }).catch(() => expandSharingStation(1));
 });
 
@@ -235,16 +235,16 @@ function expandSharingStation(totalAfterSubmit) {
   // Set QR code
   const encoded = encodeURIComponent(SITE_URL);
   document.getElementById('qrCode').src =
-    `https://chart.googleapis.com/chart?cht=qr&chl=${encoded}&chs=300x300&choe=UTF-8`;
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encoded}`;
 }
 
 function copyLink() {
   navigator.clipboard.writeText(SITE_URL).then(() => {
     const btn = document.getElementById('copyLinkBtn');
-    btn.textContent = 'Copied!';
+    btn.textContent = '✅ Copied!';
     btn.classList.add('copied');
     setTimeout(() => {
-      btn.textContent = 'Copy Link';
+      btn.textContent = '🔗 Copy Link';
       btn.classList.remove('copied');
     }, 2500);
   });
