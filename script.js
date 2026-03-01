@@ -94,7 +94,7 @@ surveyForm.addEventListener('submit', async e => {
 
   const sectionPattern = /^10\s*-\s*[a-zA-Z\s]+$/;
   if (!sectionPattern.test(sectionInput)) {
-    warning.textContent = 'Section must be in format "10 - SectionName" (e.g., 10 - Rambutan).';
+    warning.textContent = 'Section must be in format "10 - SectionName" (e.g., 10 - Puno).';
     warning.classList.remove('hidden');
     warning.classList.add('visible');
     return;
