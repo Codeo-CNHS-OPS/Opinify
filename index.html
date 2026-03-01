@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trash-Talk Survey</title>
 
-<meta property="og:title" content="Trash-Talk - School Environmental Snapshot">
-<meta property="og:description" content="A quick survey about school environmental practices.">
+<meta property="og:title" content="Trash-Talk - Knowledge Waste Disposal Among Grade 10 Studentsamp; Practice of Waste Disposal">
+<meta property="og:description" content="A quick survey on knowledge and practice of waste disposal among Grade 10 students of Carmona National High School.">
 <meta property="og:url" content="https://codeo-cnhs-ops.github.io/Trash-Talk/">
 
 <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
 <div class="container">
 
   <h1>Trash-Talk</h1>
-  <p class="subtitle">School Environmental Snapshot</p>
+  <p class="subtitle">Knowledge Waste Disposal Among Grade 10 Studentsamp; Practice of Waste Disposal</p>
 
   <form id="surveyForm">
     <div class="section">
@@ -25,7 +25,7 @@
 
     <div class="section">
       <label for="section">Grade & Section</label>
-      <input type="text" id="section" placeholder="E.g. 8 - Rambutan">
+      <input type="text" id="section" placeholder="E.g. 10 - Rambutan">
     </div>
 
     <div class="section">
@@ -82,22 +82,17 @@
   </div>
 
   <div id="sharingStation">
-    <div id="sharingHeader">
-      <span class="sharing-icon">📣</span>
-      <div>
-        <p class="sharing-title">Help my research!</p>
-        <p class="sharing-sub">I'm a solo researcher aiming for <strong>250 responses</strong> within 7 days.</p>
-      </div>
-    </div>
+    <p class="sharing-title">Help my research!</p>
+    <p class="sharing-sub">I'm a solo researcher aiming for <strong>250 responses</strong> within 7 days.</p>
     <div class="sharing-progress-label">
-      <span id="responseCount">0</span> / 250 responses
+      <span id="responseCount">0</span><span class="sharing-goal"> / 250 responses</span>
     </div>
     <div class="sharing-bar-track">
       <div id="sharingBar"></div>
     </div>
     <div id="sharingActions" class="hidden">
       <p class="sharing-cta">Every share counts — help spread the word!</p>
-      <button id="copyLinkBtn" onclick="copyLink()">🔗 Copy Link</button>
+      <button id="copyLinkBtn" onclick="copyLink()">Copy Link</button>
       <div id="qrContainer">
         <p class="qr-label">Or scan to open on another device</p>
         <img id="qrCode" src="" alt="QR Code">
